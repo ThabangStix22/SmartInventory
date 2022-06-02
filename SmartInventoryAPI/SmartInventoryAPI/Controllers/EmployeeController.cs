@@ -14,9 +14,7 @@ namespace SmartInventoryAPI.Controllers
         //instantiate class internally
         internal EmployeeRepository employeeRepo = new EmployeeRepository();
 
-
-
-        // GET: api/<EmployeeController>
+        //Get all employees{For manager}
         [HttpGet]
         [Route("GetEmployees")]
         public IEnumerable<Employee> GetEmpolyees()
@@ -26,37 +24,42 @@ namespace SmartInventoryAPI.Controllers
             return employeeRepo.GetEmployees();
         }
 
-        // GET api/<EmployeeController>/5
+        // Activate / Deactivate Employee
         [HttpPut("ActivateEmployee/{id}/{charActivate}")]
         public int ActivateEmployee(int id,char charActivate)
         {
             return employeeRepo.ActivateEmployee(id, charActivate);
         }
 
-
+        //Get employee by ID
         [HttpGet("GetEmployee{EmpId}")]
-       // [Route("GetEmployeeId")]
         public Employee GetEmployeeById(int EmpId)
         {
             return employeeRepo.GetEmployeeById(EmpId);
         }
 
+        //Get all active Employees {For Manager}
         [HttpGet("GetActiveEmployees/{charActive}")]
         public IEnumerable<Employee> GetActiveEmployees(char charActive)
         {
             return employeeRepo.GetActiveEmployees(charActive);
         }
 
+        //Register Employee
         [HttpPost("RegisterEmployee")]
         public int Register([FromBody]Employee newEmployee)
         {
             return employeeRepo.Register(newEmployee);
         }
-        // PUT api/<EmployeeController>/5
-        /*[HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+
+
+        //Update Employee Details
+        [HttpPut("UpdateEmployee")]
+        public int UpdateEmployee([FromBody] Employee existEmployee)
         {
-        }*/
+            return employeeRepo.UpdateEmployee(existEmployee);
+        }
+       
 
         
     }

@@ -146,7 +146,7 @@ namespace SmartInventoryAPI.Data
                 control = OpenConnection().Execute(@"INSERT INTO dbo.Employees
                                          VALUES('" + employee.EmpName + "','" + employee.EmpSurname + "'" +
                                          ",'" + employee.EmpDateOfEmplyt + "','" + employee.EmpPhoneNo + "'" +
-                                         ",'"+employee.EmpEmailAddress+"','"+employee.EmpPassword+"'," +
+                                         ",'"+employee.EmpEmailAddress+"','"+Encrypt.HashString(employee.EmpPassword)+"'," +
                                          "'"+employee.EmpRole+"','"+employee.EmpLocation+"','"+employee.EmpActive+"'," +
                                          "'"+employee.EmpImage+"')");
             }
@@ -156,7 +156,29 @@ namespace SmartInventoryAPI.Data
 
         public int UpdateEmployee(Employee employee)
         {
-            return 0;
+            Employee existEmployee = null;
+            int control = -2;
+
+            //First find the employee
+            existEmployee = OpenConnection().QueryFirstOrDefault<Employee>(@"SELECT * FROM dbo.Employees WHERE
+                                                   EmpEmailAddress='"+employee.EmpEmailAddress+"'");
+
+            if(existEmployee!=null)
+            {
+                control = OpenConnection().Execute(@"UPDATE dbo.Employees
+                                                    SET EmpPhoneNo='"+employee.EmpPhoneNo+"', " +
+                                                    "EmpEmailAddress='"+employee.EmpEmailAddress+"', " +
+                                                    "EmpPassword='"+Encrypt.HashString(employee.EmpPassword)+"'," +
+                                                    "EmpLocation='"+employee.EmpLocation+"'," +
+                                                    "EmpImage='"+employee.EmpImage+"'");
+            }
+            else
+            {
+                control = -1;
+            }
+
+                OpenConnection().Close();
+            return control;
         }
 
 
