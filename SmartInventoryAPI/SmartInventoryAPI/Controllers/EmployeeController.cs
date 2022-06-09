@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using SmartInventoryAPI.Data;
 using SmartInventoryAPI.Models;
 using System.Collections.Generic;
@@ -14,23 +15,24 @@ namespace SmartInventoryAPI.Controllers
         //instantiate class internally
         internal EmployeeRepository employeeRepo = new EmployeeRepository();
 
+        //CREATE CONTROLLERS
+        //Register Employee
+        [HttpPost("RegisterEmployee")]
+        public int Register(Employee newEmployee)
+        {
+            return employeeRepo.Register(newEmployee);
+        }
+
+        // RETRIEVE CONTROLLERS
         //Get all employees{For manager}
-        [HttpGet]
-        [Route("GetEmployees")]
+        [HttpGet("GetEmployees")]
         public IEnumerable<Employee> GetEmpolyees()
         {
-         
             //EmployeeRepository employee = new EmployeeRepository();
             return employeeRepo.GetEmployees();
         }
 
-        // Activate / Deactivate Employee
-        [HttpPut("ActivateEmployee/{id}/{charActivate}")]
-        public int ActivateEmployee(int id,char charActivate)
-        {
-            return employeeRepo.ActivateEmployee(id, charActivate);
-        }
-
+       
         //Get employee by ID
         [HttpGet("GetEmployee{EmpId}")]
         public Employee GetEmployeeById(int EmpId)
@@ -45,22 +47,25 @@ namespace SmartInventoryAPI.Controllers
             return employeeRepo.GetActiveEmployees(charActive);
         }
 
-        //Register Employee
-        [HttpPost("RegisterEmployee")]
-        public int Register([FromBody]Employee newEmployee)
-        {
-            return employeeRepo.Register(newEmployee);
-        }
+        
 
+        //UPDATE CONTROLLER
+        // Activate / Deactivate Employee
+        [HttpPut("ActivateEmployee/{id}/{charActivate}")]
+        public int ActivateEmployee(int id, char charActivate)
+        {
+            return employeeRepo.ActivateEmployee(id, charActivate);
+        }
 
         //Update Employee Details
         [HttpPut("UpdateEmployee")]
-        public int UpdateEmployee([FromBody] Employee existEmployee)
+        public int UpdateEmployee(Employee existEmployee)
         {
             return employeeRepo.UpdateEmployee(existEmployee);
         }
-       
 
-        
+
+
+
     }
 }

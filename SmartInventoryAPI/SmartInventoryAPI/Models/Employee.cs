@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SmartInventoryAPI.Models
 {
@@ -6,7 +9,7 @@ namespace SmartInventoryAPI.Models
     {
         Employee(int EmpID,string EmpName,string EmpSurname,DateTime EmpDateOfEmplyt,
             int EmpPhoneNo,string EmpEmail,string EmpPassword,string EmpRole,
-            string EmpLoc,char EmpActive,string EmpImage)
+            string EmpLoc,string EmpActive,string EmpImage,string WareID)
         {
             this.EmpID = EmpID;
             this.EmpName = EmpName;
@@ -17,8 +20,14 @@ namespace SmartInventoryAPI.Models
             this.EmpPassword = EmpPassword;
             this.EmpRole = EmpRole;
             this.EmpLocation = EmpLocation;
-            this.EmpActive = EmpActive;
+            this.EmpActive = EmpActive.ElementAt<char>(0).ToString();
             this.EmpImage = EmpImage;
+            this.WareID = WareID;
+        }
+
+       public Employee()
+        {
+
         }
         public int EmpID { set; get; }
         public string EmpName { set; get; }
@@ -29,7 +38,8 @@ namespace SmartInventoryAPI.Models
         public string EmpPassword{set; get;}
         public string EmpRole{set; get; }
         public string EmpLocation{set; get;}
-        public char EmpActive { set; get; }
+        public string EmpActive { set; get; }
         public string EmpImage{set; get;}
+        public string WareID { get; set; }
 }
 }
